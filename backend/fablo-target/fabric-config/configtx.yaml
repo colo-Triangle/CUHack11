@@ -97,52 +97,6 @@ Organizations:
           - Host: peer0.patient.healthcare.com
             Port: 7061
 
-    - &Pool
-      Name: PoolMSP
-      ID: PoolMSP
-      MSPDir: crypto-config/peerOrganizations/pool.healthcare.com/msp
-
-      Policies:
-          Readers:
-              Type: Signature
-              Rule: "OR('PoolMSP.member')"
-          Writers:
-              Type: Signature
-              Rule: "OR('PoolMSP.member')"
-          Admins:
-              Type: Signature
-              Rule: "OR('PoolMSP.admin')"
-          Endorsement:
-              Type: Signature
-              Rule: "OR('PoolMSP.member')"
-
-      AnchorPeers:
-          - Host: peer0.pool.healthcare.com
-            Port: 7081
-
-    - &Research
-      Name: ResearchMSP
-      ID: ResearchMSP
-      MSPDir: crypto-config/peerOrganizations/research.healthcare.com/msp
-
-      Policies:
-          Readers:
-              Type: Signature
-              Rule: "OR('ResearchMSP.member')"
-          Writers:
-              Type: Signature
-              Rule: "OR('ResearchMSP.member')"
-          Admins:
-              Type: Signature
-              Rule: "OR('ResearchMSP.admin')"
-          Endorsement:
-              Type: Signature
-              Rule: "OR('ResearchMSP.member')"
-
-      AnchorPeers:
-          - Host: peer0.research.healthcare.com
-            Port: 7101
-
 ################################################################################
 #   SECTION: Application
 ################################################################################
@@ -223,8 +177,6 @@ Profiles:
                     - *Org1
                     - *Doctor
                     - *Patient
-                    - *Pool
-                    - *Research
 
     # Profile used to create channeltx for health-channel #
     HealthChannel:
@@ -246,43 +198,3 @@ Profiles:
             Organizations:
                 - *Doctor
                 - *Patient
-    # Profile used to create channeltx for pool-patient #
-    PoolPatient:
-        <<: *ChannelDefaults
-        Orderer:
-            <<: *Group1Defaults
-            Organizations:
-                - *Org1
-            Capabilities:
-                <<: *ApplicationCapabilities
-        Consortium: SampleConsortium
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *Patient
-                    - *Pool
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - *Patient
-                - *Pool
-    # Profile used to create channeltx for research-pool #
-    ResearchPool:
-        <<: *ChannelDefaults
-        Orderer:
-            <<: *Group1Defaults
-            Organizations:
-                - *Org1
-            Capabilities:
-                <<: *ApplicationCapabilities
-        Consortium: SampleConsortium
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *Pool
-                    - *Research
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - *Pool
-                - *Research

@@ -7,14 +7,6 @@
     "network-patient": {
       "name": "Network of Patient",
       "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-patient.json"
-    },
-    "network-pool": {
-      "name": "Network of Pool",
-      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-pool.json"
-    },
-    "network-research": {
-      "name": "Network of Research",
-      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-research.json"
     }
   },
   "license": "Apache-2.0"

@@ -15,18 +15,6 @@ chaincodeList() {
 
     peerChaincodeList "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7061" "$2" # $2 is channel name
 
-  elif
-    [ "$1" = "peer0.pool.healthcare.com" ]
-  then
-
-    peerChaincodeList "cli.pool.healthcare.com" "peer0.pool.healthcare.com:7081" "$2" # $2 is channel name
-
-  elif
-    [ "$1" = "peer0.research.healthcare.com" ]
-  then
-
-    peerChaincodeList "cli.research.healthcare.com" "peer0.research.healthcare.com:7101" "$2" # $2 is channel name
-
   else
 
     echo "Fail to call listChaincodes. No peer or channel found. Provided peer: $1, channel: $2"
@@ -58,16 +46,6 @@ chaincodeInvoke() {
   if [[ "$1" == *"peer0.patient.healthcare.com"* ]]; then
     cli="cli.patient.healthcare.com"
     peer_addresses="$peer_addresses,peer0.patient.healthcare.com:7061"
-
-  fi
-  if [[ "$1" == *"peer0.pool.healthcare.com"* ]]; then
-    cli="cli.pool.healthcare.com"
-    peer_addresses="$peer_addresses,peer0.pool.healthcare.com:7081"
-
-  fi
-  if [[ "$1" == *"peer0.research.healthcare.com"* ]]; then
-    cli="cli.research.healthcare.com"
-    peer_addresses="$peer_addresses,peer0.research.healthcare.com:7101"
 
   fi
   if [ -z "$peer_addresses" ]; then

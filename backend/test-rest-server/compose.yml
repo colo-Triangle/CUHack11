@@ -1,0 +1,16 @@
+  fablo-rest.org1.com:
+    image: ghcr.io/fablo-io/fablo-rest:0.1.2
+    environment:
+      - PORT=8000
+      - MSP_ID=Org1MSP
+      - FABRIC_CA_URL=http://ca.org1.healthcare.com:7054
+      - FABRIC_CA_NAME=ca.org1.healthcare.com
+      - AS_LOCALHOST=false
+      - DISCOVERY_URLS=grpc://peer0.patient.healthcare.com:7061, grpc://peer0.doctor.healthcare.com:7041
+      - HFC_LOGGING={"debug":"console"}
+    ports:
+      - 8802:8000
+    depends_on:
+      - ca.org1.healthcare.com
+      - peer0.patient.healthcare.com
+      - peer0.doctor.healthcare.com

@@ -10,9 +10,7 @@
       "mspid": "Org1MSP",
       "peers": [
         "peer0.doctor.healthcare.com",
-        "peer0.patient.healthcare.com",
-        "peer0.pool.healthcare.com",
-        "peer0.research.healthcare.com"
+        "peer0.patient.healthcare.com"
       ],
       "certificateAuthorities": [
         "ca.org1.healthcare.com"
@@ -25,12 +23,6 @@
     },
     "peer0.patient.healthcare.com": {
       "url": "grpc://localhost:7061"
-    },
-    "peer0.pool.healthcare.com": {
-      "url": "grpc://localhost:7081"
-    },
-    "peer0.research.healthcare.com": {
-      "url": "grpc://localhost:7101"
     }
   },
   "certificateAuthorities": {

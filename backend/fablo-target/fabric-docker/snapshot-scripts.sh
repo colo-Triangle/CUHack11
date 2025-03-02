@@ -5,8 +5,6 @@ __getOrdererAndPeerNodes() {
       orderer0.group1.org1.healthcare.com
       peer0.doctor.healthcare.com
       peer0.patient.healthcare.com
-      peer0.pool.healthcare.com
-      peer0.research.healthcare.com
   "
 }
 
@@ -15,8 +13,6 @@ __getCASQLiteNodes() {
       ca.org1.healthcare.com
       ca.doctor.healthcare.com
       ca.patient.healthcare.com
-      ca.pool.healthcare.com
-      ca.research.healthcare.com
   "
 }
 
