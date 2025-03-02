@@ -1,0 +1,30 @@
+name: fablo-test-network-pool
+description: Connection profile for Pool in Fablo network
+version: 1.0.0
+client:
+  organization: Pool
+organizations:
+  Pool:
+    mspid: PoolMSP
+    peers:
+      - peer0.doctor.healthcare.com
+      - peer0.patient.healthcare.com
+      - peer0.pool.healthcare.com
+      - peer0.research.healthcare.com
+    certificateAuthorities:
+      - ca.pool.healthcare.com
+peers:
+  peer0.doctor.healthcare.com:
+    url: grpc://localhost:7041
+  peer0.patient.healthcare.com:
+    url: grpc://localhost:7061
+  peer0.pool.healthcare.com:
+    url: grpc://localhost:7081
+  peer0.research.healthcare.com:
+    url: grpc://localhost:7101
+certificateAuthorities:
+  ca.pool.healthcare.com:
+    url: http://localhost:7080
+    caName: ca.pool.healthcare.com
+    httpOptions:
+      verify: false

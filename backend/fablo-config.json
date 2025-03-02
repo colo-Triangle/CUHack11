@@ -9,8 +9,8 @@
   "orgs": [
     {
       "organization": {
-        "name": "Orderer",
-        "domain": "orderer.healthcare.com"
+        "name": "Org1",
+        "domain": "org1.healthcare.com"
       },
       "orderers": [
         {
@@ -48,6 +48,33 @@
       "tools": {
         "fabloRest": true
       }
+    },
+    {
+      "organization": {
+        "name": "Pool",
+        "domain": "pool.healthcare.com"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "LevelDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "Research",
+        "domain": "research.healthcare.com"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "LevelDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+      
     }
   ],
   "channels": [
@@ -67,6 +94,31 @@
           ]
         }
       ]
+    },
+    {
+      "name": "pool-patient",
+      "orgs": [
+        {
+          "name": "Patient",
+          "peers": ["peer0"]
+        },
+        {
+          "name": "Pool",
+          "peers": ["peer0"]
+        }
+      ]
+    },
+    {
+      "name": "research-pool",
+      "orgs": [{
+        "name": "Pool",
+        "peers": ["peer0"]
+      },
+      {
+        "name": "Research",
+        "peers": ["peer0"]
+      }
+    ]
     }
   ],
   "chaincodes": [{

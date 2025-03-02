@@ -1,0 +1,8 @@
+PeerOrgs:
+  - Name: Research
+    Domain: research.healthcare.com
+    Specs:
+    Template:
+      Count: 1
+    Users:
+      Count: 1
