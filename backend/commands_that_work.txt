@@ -1,0 +1,15 @@
+fablo chaincode invoke peer0.doctor.healthcare.com health-channel patientcc '{"Args":["AddPatient", "P1003", "Charlie Brown", "35", "Asthma"]}'   
+
+fablo chaincode invoke peer0.doctor.healthcare.com health-channel patientcc '{"Args":["GetPatient", "P1003"]}'
+
+
+ex: '{"Args":["<class:function>", <args>]}
+
+fablo chaincode invoke peer0.doctor.healthcare.com health-channel patientcc '{"Args":["AddPatientJson","P1004","{\"name\":\"Alice Smith\",\"age\":\"28\",\"condition\":\"Diabetes\",\"medicalHistory\":{\"diagnoses\":[\"Type 1 Diabetes\"],\"medications\":[\"Insulin\"],\"lastVisit\":\"2024-10-15\"},\"emergencyContact\":{\"name\":\"Bob Smith\",\"phone\":\"555-1234\"}}"]}'   
+
+
+patient retireve
+fablo chaincode invoke peer0.patient.healthcare.com health-channel patientcc '{"Args":["GetPatient", "P1004"]}'
+
+patient creation (shouldnt work)
+fablo chaincode invoke peer0.patient.healthcare.com health-channel patientcc '{"Args":["AddPatientJson","P1004","{\"name\":\"Alice Smith\",\"age\":\"28\",\"condition\":\"Diabetes\",\"medicalHistory\":{\"diagnoses\":[\"Type 1 Diabetes\"],\"medications\":[\"Insulin\"],\"lastVisit\":\"2024-10-15\"},\"emergencyContact\":{\"name\":\"Bob Smith\",\"phone\":\"555-1234\"}}"]}'   

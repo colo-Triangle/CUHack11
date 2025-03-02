@@ -1,0 +1,80 @@
+{
+  "$schema": "https://github.com/hyperledger-labs/fablo/releases/download/2.1.0/schema.json",
+  "global": {
+    "fabricVersion": "2.5.9",
+    "tls": false,
+    "engine": "docker",
+    "peerDevMode": false
+  },
+  "orgs": [
+    {
+      "organization": {
+        "name": "Orderer",
+        "domain": "orderer.healthcare.com"
+      },
+      "orderers": [
+        {
+          "groupName": "group1",
+          "type": "solo",
+          "instances": 1
+        }
+      ],
+      "tools": {
+        "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "Doctor",
+        "domain": "doctor.healthcare.com"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "LevelDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "Patient",
+        "domain": "patient.healthcare.com"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "LevelDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    }
+  ],
+  "channels": [
+    {
+      "name": "health-channel",
+      "orgs": [
+        {
+          "name": "Doctor",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "Patient",
+          "peers": [
+            "peer0"
+          ]
+        }
+      ]
+    }
+  ],
+  "chaincodes": [{
+    "name": "patientcc",
+    "directory": "./chaincodes/patient",
+    "version": "1.0",
+    "lang": "golang",
+    "channel": "health-channel",
+    "endorsement": "OR('DoctorMSP.member', 'PatientMSP.member')"
+}]
+}

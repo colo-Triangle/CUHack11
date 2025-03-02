@@ -1,0 +1,200 @@
+################################################################################
+#   SECTION: Capabilities
+################################################################################
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_5: true
+
+################################################################################
+#   CHANNEL Defaults
+################################################################################
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+################################################################################
+#   Section: Organizations
+################################################################################
+Organizations:
+    - &Orderer
+      Name: OrdererMSP
+      ID: OrdererMSP
+      MSPDir: crypto-config/peerOrganizations/orderer.healthcare.com/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('OrdererMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('OrdererMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('OrdererMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('OrdererMSP.member')"
+
+      AnchorPeers:
+
+    - &Doctor
+      Name: DoctorMSP
+      ID: DoctorMSP
+      MSPDir: crypto-config/peerOrganizations/doctor.healthcare.com/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('DoctorMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('DoctorMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('DoctorMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('DoctorMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.doctor.healthcare.com
+            Port: 7041
+
+    - &Patient
+      Name: PatientMSP
+      ID: PatientMSP
+      MSPDir: crypto-config/peerOrganizations/patient.healthcare.com/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('PatientMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('PatientMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('PatientMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('PatientMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.patient.healthcare.com
+            Port: 7061
+
+################################################################################
+#   SECTION: Application
+################################################################################
+Application: &ApplicationDefaults
+    Organizations:
+    # Policies defines the set of policies at this level of the config tree
+    # For Application policies, their canonical path is
+    #   /Channel/Application/<PolicyName>
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+################################################################################
+#   SECTION: Orderer
+################################################################################
+Orderer: &Group1Defaults
+    OrdererType: solo
+    Addresses:
+        - orderer0.group1.orderer.healthcare.com:7030
+
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Organizations:
+    # Policies defines the set of policies at this level of the config tree
+    # For Orderer policies, their canonical path is
+    #   /Channel/Orderer/<PolicyName>
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        # BlockValidation specifies what signatures must be included in the block
+        # from the orderer for the peer to validate it.
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+    Capabilities:
+        <<: *OrdererCapabilities
+
+################################################################################
+#   Profile
+################################################################################
+# https://github:com/hyperledger/fabric/blob/master/sampleconfig/configtx.yaml
+
+Profiles:
+    # Profile used to create Genesis block for group group1 #
+    Group1Genesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *Group1Defaults
+            Organizations:
+                - *Orderer
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Orderer
+                    - *Doctor
+                    - *Patient
+
+    # Profile used to create channeltx for health-channel #
+    HealthChannel:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *Group1Defaults
+            Organizations:
+                - *Orderer
+            Capabilities:
+                <<: *ApplicationCapabilities
+        Consortium: SampleConsortium
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Doctor
+                    - *Patient
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Doctor
+                - *Patient

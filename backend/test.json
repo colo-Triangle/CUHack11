@@ -1,0 +1,1 @@
+{"Args":["AddPatientJson","P1004","{\"name\":\"Alice Smith\",\"age\":\"28\",\"condition\":\"Diabetes\",\"medicalHistory\":{\"diagnoses\":[\"Type 1 Diabetes\"],\"medications\":[\"Insulin\"],\"lastVisit\":\"2024-10-15\"},\"emergencyContact\":{\"name\":\"Bob Smith\",\"phone\":\"555-1234\"}}"]}
